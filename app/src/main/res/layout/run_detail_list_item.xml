@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:padding="5dp"
+        android:background="#FF555555"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/runCategory"
+            android:text="Category"
+            android:textSize="16sp"
+            android:textColor="#FFDDDDDD"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="5"
+
+            />
+
+        <RelativeLayout
+            android:id="@+id/runRank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+
+            <ImageView
+                android:id="@+id/rankIcon"
+                android:src="@drawable/star_icon"
+                android:marginLeft="15dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                />
+
+            <TextView
+                android:id="@+id/rankNumber"
+                android:text="1st"
+                android:textSize="14sp"
+                android:textColor="#FFDDDDDD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rankIcon"
+                android:layout_marginLeft="5dp"
+
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/runUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+            <ImageView
+                android:id="@+id/userFlag"
+                android:src="@drawable/flag"
+                android:layout_width="30dp"
+                android:layout_height="18dp"
+                android:scaleType="fitXY"
+                android:adjustViewBounds="true"
+                />
+            <TextView
+                android:id="@+id/userName"
+                android:text="Username"
+                android:textSize="14sp"
+                android:textColor="#FFDDDDDD"
+                android:layout_marginLeft="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/userFlag"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/runTime"
+            android:text="1h 59m 59s"
+            android:textSize="14sp"
+            android:textColor="#FFDDDDDD"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            />
+
+
+    </LinearLayout>
+</LinearLayout>
