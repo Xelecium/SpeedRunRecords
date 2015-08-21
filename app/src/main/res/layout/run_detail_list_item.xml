@@ -35,7 +35,7 @@
             <ImageView
                 android:id="@+id/rankIcon"
                 android:src="@drawable/star_icon"
-                android:marginLeft="15dp"
+                android:layout_marginLeft="15dp"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:scaleType="fitXY"

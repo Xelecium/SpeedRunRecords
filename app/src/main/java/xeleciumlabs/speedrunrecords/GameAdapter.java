@@ -1,29 +1,34 @@
 package xeleciumlabs.speedrunrecords;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.Request;
+
 /**
- * Created by Xelecium on 8/16/2015.
+ * Created by Xelecium on 8/19/2015.
  */
-public class RunAdapter extends BaseAdapter {
+public class GameAdapter extends BaseAdapter {
 
+    private Context mContext;
     private LayoutInflater mInflater;
+    private Game[] mGames;
 
-    //Constructor
-    public RunAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
+    public GameAdapter (Context context, Game[] games) {
+        mContext = context;
+        mInflater = LayoutInflater.from(mContext);
+        mGames = games;
     }
-
     @Override
     public int getCount() {
+//        return mGames.length;
         return 0;
     }
 
@@ -44,14 +49,10 @@ public class RunAdapter extends BaseAdapter {
 
         //if view is not yet populated
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.run_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.game_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.gameArt = (ImageView)convertView.findViewById(R.id.gameArt);
             holder.gameTitle = (TextView)convertView.findViewById(R.id.gameTitle);
-            holder.gameDetails = (ListView)convertView.findViewById(R.id.runDetails);
-            RunDetailAdapter detailAdapter = new RunDetailAdapter();
-            holder.gameDetails.setAdapter(detailAdapter);
 
             holder.viewPosition = position;
             convertView.setTag(holder); //Tag for the RecyclerView
@@ -60,15 +61,29 @@ public class RunAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
+        Game game = mGames[position];
+//        holder.gameTitle.setText(game.getGameName());
+        holder.gameTitle.setText("TITLES!!!!");
+
         return convertView;
     }
 
     //ViewHolder for recycling
     private static class ViewHolder {
-        ImageView gameArt;
         TextView gameTitle;
-        ListView gameDetails;
 
         int viewPosition;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager manager = (ConnectivityManager)
+                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+
+        return isAvailable;
     }
 }

@@ -8,26 +8,59 @@
 
     >
 
-
-    <EditText
-        android:id="@+id/searchBar"
-        android:text="Name"
-        android:textColor="#FFDDDDDD"
+    <ImageView
+        android:id="@+id/bannerImage"
+        android:src="@drawable/nes_cartridge"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-
         />
 
-    <ListView
-        android:id="@+id/runList"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/searchBar"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bannerImage"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical"
         >
 
+        <Button
+            android:id="@+id/seriesButton"
+            android:text="SERIES"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-    </ListView>
+            />
+        <Button
+            android:id="@+id/gamesButton"
+            android:text="GAMES"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <Button
+            android:id="@+id/platformsButton"
+            android:text="PLATFORMS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <Button
+            android:id="@+id/regionsButton"
+            android:text="REGIONS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+        <Button
+            android:id="@+id/runsButton"
+            android:text="RUNS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+        />
+        <Button
+            android:id="@+id/usersButton"
+            android:text="USERS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
+    </LinearLayout>
 </RelativeLayout>

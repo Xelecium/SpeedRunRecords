@@ -21,13 +21,13 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/gameArt"
             android:layout_marginLeft="10dp"
             >
             <TextView
-                android:id="@+id/gameTitle"
+                android:id="@+id/runTitle"
                 android:text="Game Title"
                 android:textSize="18sp"
                 android:textColor="#FFDDDDDD"
@@ -35,14 +35,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
-            <LinearLayout
+            <ListView
                 android:id="@+id/runDetails"
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 >
 
-            </LinearLayout>
+            </ListView>
 
         </LinearLayout>
 
