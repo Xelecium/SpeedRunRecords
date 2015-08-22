@@ -1,4 +1,4 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;

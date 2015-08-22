@@ -1,4 +1,4 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,47 +26,50 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-/**
- * Created by Xelecium on 8/19/2015.
- */
-public class GameListActivity extends Activity {
+import xeleciumlabs.speedrunrecords.R;
+import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
+import xeleciumlabs.speedrunrecords.adapter.SeriesAdapter;
+import xeleciumlabs.speedrunrecords.data.Game;
+import xeleciumlabs.speedrunrecords.data.Series;
 
-    private static final String TAG = GameListActivity.class.getSimpleName();
+public class SeriesListActivity extends Activity {
+
+    private static final String TAG = SeriesListActivity.class.getSimpleName();
 
     private EditText mSearchBar;
-    private ListView mGameList;
+    private ListView mSeriesList;
 
     private ProgressBar mProgressBar;
     private ImageView mRefreshImageView;
 
-    private ArrayList<Game> mGames;
-    private GameAdapter mGameAdapter;
+    private ArrayList<Series> mSeries;
+    private SeriesAdapter mSeriesAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_list);
+        setContentView(R.layout.activity_series_list);
 
         mSearchBar = (EditText)findViewById(R.id.searchBar);
-        mGameList = (ListView)findViewById(R.id.gameList);
+        mSeriesList = (ListView)findViewById(R.id.seriesList);
 
         mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
         mProgressBar.setVisibility(View.INVISIBLE);
         mRefreshImageView = (ImageView)findViewById(R.id.refresh);
 
-        mGames = new ArrayList<>();
+        mSeries = new ArrayList<>();
 
         getGameList();
 
-        mGameAdapter = new GameAdapter(GameListActivity.this, mGames);
-        mGameList.setAdapter(mGameAdapter);
+        mSeriesAdapter = new SeriesAdapter(SeriesListActivity.this, mSeries);
+        mSeriesList.setAdapter(mSeriesAdapter);
     }
 
     private void getGameList() {
 
         String apiKey = "vuoc0473yvpmiiwiaaehcfh9w";
-        String apiUrl = "http://www.speedrun.com/api/v1/games";
+        String apiUrl = "http://www.speedrun.com/api/v1/series";
 
         if (isNetworkAvailable()) {
             toggleRefresh();
@@ -87,7 +90,7 @@ public class GameListActivity extends Activity {
                             toggleRefresh();
                         }
                     });
-                    Toast.makeText(GameListActivity.this, "No JSON Response", Toast.LENGTH_LONG);
+                    Toast.makeText(SeriesListActivity.this, "No JSON Response", Toast.LENGTH_LONG);
                     //alertUserAboutError();
                 }
 
@@ -109,7 +112,7 @@ public class GameListActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mGameAdapter.notifyDataSetChanged();
+                                    mSeriesAdapter.notifyDataSetChanged();
                                 }
                             });
 
@@ -142,18 +145,14 @@ public class GameListActivity extends Activity {
 
         for (int i = 0; i < data.length(); i++) {
             JSONObject jsonGame = games.getJSONObject(i);
-            Game game = new Game();
+            Series series = new Series();
 
-            game.setGameId(jsonGame.getString("id"));
+            series.setSeriesId(jsonGame.getString("id"));
 
-            JSONObject jsonGameName = jsonGame.getJSONObject("names");
-            game.setGameName(jsonGameName.getString("international"));
+            series.setSeriesName(jsonGame.getJSONObject("names").getString("international"));
+            series.setSeriesWebLink(jsonGame.getString("weblink"));
 
-            game.setGameRelease(jsonGame.getInt("released"));
-
-            game.setGamePlatform(jsonGame.getString("platforms"));
-
-            mGames.add(game);
+            mSeries.add(series);
         }
     }
 

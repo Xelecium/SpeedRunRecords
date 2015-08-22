@@ -1,30 +1,33 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
+import xeleciumlabs.speedrunrecords.R;
+import xeleciumlabs.speedrunrecords.data.Series;
+
 /**
- * Created by Xelecium on 8/16/2015.
+ * Created by Xelecium on 8/22/2015.
  */
-public class RunAdapter extends BaseAdapter {
-
+public class SeriesAdapter extends BaseAdapter {
+    private Context mContext;
     private LayoutInflater mInflater;
+    private ArrayList<Series> mSeries;
 
-    //Constructor
-    public RunAdapter(Context context) {
-        mInflater = LayoutInflater.from(context);
+    public SeriesAdapter (Context context, ArrayList<Series> series) {
+        mContext = context;
+        mInflater = LayoutInflater.from(mContext);
+        mSeries = series;
     }
-
     @Override
     public int getCount() {
-        return 0;
+        return mSeries.size();
     }
 
     @Override
@@ -44,14 +47,10 @@ public class RunAdapter extends BaseAdapter {
 
         //if view is not yet populated
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.run_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.series_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.gameArt = (ImageView)convertView.findViewById(R.id.gameArt);
-            holder.gameTitle = (TextView)convertView.findViewById(R.id.gameTitle);
-            holder.gameDetails = (ListView)convertView.findViewById(R.id.runDetails);
-            RunDetailAdapter detailAdapter = new RunDetailAdapter();
-            holder.gameDetails.setAdapter(detailAdapter);
+            holder.seriesTitle = (TextView)convertView.findViewById(R.id.seriesTitle);
 
             holder.viewPosition = position;
             convertView.setTag(holder); //Tag for the RecyclerView
@@ -60,14 +59,15 @@ public class RunAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
+        Series series = mSeries.get(position);
+        holder.seriesTitle.setText(series.getSeriesName());
+
         return convertView;
     }
 
     //ViewHolder for recycling
     private static class ViewHolder {
-        ImageView gameArt;
-        TextView gameTitle;
-        ListView gameDetails;
+        TextView seriesTitle;
 
         int viewPosition;
     }

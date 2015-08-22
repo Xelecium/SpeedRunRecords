@@ -1,9 +1,11 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import xeleciumlabs.speedrunrecords.R;
 
 public class RunListActivity extends AppCompatActivity {
 

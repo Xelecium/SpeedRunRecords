@@ -1,4 +1,4 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,6 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import xeleciumlabs.speedrunrecords.R;
+import xeleciumlabs.speedrunrecords.data.Game;
 
 /**
  * Created by Xelecium on 8/19/2015.

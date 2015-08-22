@@ -1,6 +1,5 @@
-package xeleciumlabs.speedrunrecords;
+package xeleciumlabs.speedrunrecords.data;
 
-import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -8,11 +7,11 @@ import android.os.Parcelable;
  * Created by Xelecium on 8/19/2015.
  */
 public class Game implements Parcelable {
-
-
     String mGameId;
     String mGameName;
-//    Uri mGameWebLink;
+
+
+    String mGameWebLink;
     int mGameRelease;
     String mGamePlatform;
 //    Uri mGameCover;
@@ -30,6 +29,12 @@ public class Game implements Parcelable {
     }
     public void setGameName(String mGameName) {
         this.mGameName = mGameName;
+    }
+    public String getGameWebLink() {
+        return mGameWebLink;
+    }
+    public void setGameWebLink(String gameWebLink) {
+        mGameWebLink = gameWebLink;
     }
     public int getGameRelease() {
         return mGameRelease;
