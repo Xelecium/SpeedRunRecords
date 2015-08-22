@@ -16,6 +16,7 @@
         />
 
     <LinearLayout
+        android:id="@+id/buttons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/bannerImage"
@@ -60,7 +61,5 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             />
-
-
     </LinearLayout>
 </RelativeLayout>

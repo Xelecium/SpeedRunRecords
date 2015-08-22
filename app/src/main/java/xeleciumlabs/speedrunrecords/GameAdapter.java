@@ -1,16 +1,13 @@
 package xeleciumlabs.speedrunrecords;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
+import java.util.ArrayList;
 
 /**
  * Created by Xelecium on 8/19/2015.
@@ -19,17 +16,16 @@ public class GameAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private Game[] mGames;
+    private ArrayList<Game> mGames;
 
-    public GameAdapter (Context context, Game[] games) {
+    public GameAdapter (Context context, ArrayList<Game> games) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
         mGames = games;
     }
     @Override
     public int getCount() {
-//        return mGames.length;
-        return 0;
+        return mGames.size();
     }
 
     @Override
@@ -61,9 +57,8 @@ public class GameAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        Game game = mGames[position];
-//        holder.gameTitle.setText(game.getGameName());
-        holder.gameTitle.setText("TITLES!!!!");
+        Game game = mGames.get(position);
+        holder.gameTitle.setText(game.getGameName());
 
         return convertView;
     }
@@ -73,17 +68,5 @@ public class GameAdapter extends BaseAdapter {
         TextView gameTitle;
 
         int viewPosition;
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager)
-                mContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        boolean isAvailable = false;
-        if (networkInfo != null && networkInfo.isConnected()) {
-            isAvailable = true;
-        }
-
-        return isAvailable;
     }
 }

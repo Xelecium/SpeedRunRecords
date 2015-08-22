@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by Xelecium on 8/19/2015.
@@ -38,7 +39,8 @@ public class GameListActivity extends Activity {
     private ProgressBar mProgressBar;
     private ImageView mRefreshImageView;
 
-    private Game[] mGames;
+    private ArrayList<Game> mGames;
+    private GameAdapter mGameAdapter;
 
 
     @Override
@@ -53,11 +55,12 @@ public class GameListActivity extends Activity {
         mProgressBar.setVisibility(View.INVISIBLE);
         mRefreshImageView = (ImageView)findViewById(R.id.refresh);
 
+        mGames = new ArrayList<>();
 
         getGameList();
 
-        GameAdapter adapter = new GameAdapter(this, mGames);
-        mGameList.setAdapter(adapter);
+        mGameAdapter = new GameAdapter(GameListActivity.this, mGames);
+        mGameList.setAdapter(mGameAdapter);
     }
 
     private void getGameList() {
@@ -84,6 +87,7 @@ public class GameListActivity extends Activity {
                             toggleRefresh();
                         }
                     });
+                    Toast.makeText(GameListActivity.this, "No JSON Response", Toast.LENGTH_LONG);
                     //alertUserAboutError();
                 }
 
@@ -100,14 +104,15 @@ public class GameListActivity extends Activity {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
-                            mGames = getGameData(jsonData);
+                            getGameData(jsonData);
 
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-//                                    updateDisplay();
+                                    mGameAdapter.notifyDataSetChanged();
                                 }
                             });
+
                         }
                         else {
 //                            alertUserAboutError();
@@ -127,13 +132,13 @@ public class GameListActivity extends Activity {
             Toast.makeText(this, "Network is unavailable!",
                     Toast.LENGTH_LONG).show();
         }
+
+
     }
 
-    private Game[] getGameData(String jsonData) throws JSONException {
+    private void getGameData(String jsonData) throws JSONException {
         JSONObject data = new JSONObject(jsonData);
         JSONArray games = data.getJSONArray("data");
-
-        Game[] gameArray = new Game[games.length()];
 
         for (int i = 0; i < data.length(); i++) {
             JSONObject jsonGame = games.getJSONObject(i);
@@ -148,9 +153,8 @@ public class GameListActivity extends Activity {
 
             game.setGamePlatform(jsonGame.getString("platforms"));
 
-            gameArray[i] = game;
+            mGames.add(game);
         }
-        return gameArray;
     }
 
     private void toggleRefresh() {
