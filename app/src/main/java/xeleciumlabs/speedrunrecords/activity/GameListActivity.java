@@ -1,7 +1,10 @@
 package xeleciumlabs.speedrunrecords.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 
 import xeleciumlabs.speedrunrecords.R;
 import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
+import xeleciumlabs.speedrunrecords.data.APIData;
 import xeleciumlabs.speedrunrecords.data.Game;
 
 /**
@@ -36,6 +40,15 @@ import xeleciumlabs.speedrunrecords.data.Game;
 public class GameListActivity extends Activity {
 
     private static final String TAG = GameListActivity.class.getSimpleName();
+
+    public static final String SERIES_DATA_TYPE = "TYPE_SERIES";
+    public static final String GAME_DATA_TYPE = "TYPE_GAME";
+    public static final String PLATFORM_DATA_TYPE = "TYPE_PLATFORM";
+    public static final String REGION_DATA_TYPE = "TYPE_REGION";
+    public static final String RUN_DATA_TYPE = "TYPE_RUN";
+    public static final String USER_DATA_TYPE = "TYPE_USER";
+
+    public static final String API_GAME_URL = "http://www.speedrun.com/api/v1/games";
 
     private EditText mSearchBar;
     private ListView mGameList;
@@ -61,11 +74,35 @@ public class GameListActivity extends Activity {
 
         mGames = new ArrayList<>();
 
-        getGameList();
+
+
+//        getGameList();
 
         mGameAdapter = new GameAdapter(GameListActivity.this, mGames);
         mGameList.setAdapter(mGameAdapter);
+
+        APIData.getData(this, mGames, API_GAME_URL, GAME_DATA_TYPE);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(mUpdateReceiver, new IntentFilter(APIData.UPDATE_VIEW));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(mUpdateReceiver);
+    }
+
+
+    private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mGameAdapter.notifyDataSetChanged();
+        }
+    };
 
     private void getGameList() {
 
@@ -144,7 +181,7 @@ public class GameListActivity extends Activity {
         JSONObject data = new JSONObject(jsonData);
         JSONArray games = data.getJSONArray("data");
 
-        for (int i = 0; i < data.length(); i++) {
+        for (int i = 0; i < games.length(); i++) {
             JSONObject jsonGame = games.getJSONObject(i);
             Game game = new Game();
 

@@ -6,11 +6,9 @@ import android.os.Parcelable;
 /**
  * Created by Xelecium on 8/19/2015.
  */
-public class Game implements Parcelable {
+public class Game {
     String mGameId;
     String mGameName;
-
-
     String mGameWebLink;
     int mGameRelease;
     String mGamePlatform;
@@ -53,41 +51,4 @@ public class Game implements Parcelable {
     public Game() {
 
     }
-
-    protected Game(Parcel in) {
-        mGameId = in.readString();
-        mGameName = in.readString();
-//        mGameWebLink
-        mGameRelease = in.readInt();
-        mGamePlatform = in.readString();
-//        mGameCover
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(mGameId);
-        dest.writeString(mGameName);
-//        mGameWebLink
-        dest.writeInt(mGameRelease);
-        dest.writeString(mGamePlatform);
-//        mGameCover
-    }
-
-    public static final Creator<Game> CREATOR = new Creator<Game>() {
-        @Override
-        public Game createFromParcel(Parcel in) {
-            return new Game(in);
-        }
-
-        @Override
-        public Game[] newArray(int size) {
-            return new Game[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
 }

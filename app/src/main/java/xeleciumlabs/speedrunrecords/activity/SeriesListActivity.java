@@ -143,7 +143,7 @@ public class SeriesListActivity extends Activity {
         JSONObject data = new JSONObject(jsonData);
         JSONArray games = data.getJSONArray("data");
 
-        for (int i = 0; i < data.length(); i++) {
+        for (int i = 0; i < games.length(); i++) {
             JSONObject jsonGame = games.getJSONObject(i);
             Series series = new Series();
 
