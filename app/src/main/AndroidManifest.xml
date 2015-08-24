@@ -21,28 +21,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.SeriesListActivity"
-            android:label="@string/title_activity_series_list"
-            android:parentActivityName=".activity.MainActivity" >
-        </activity>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activity.MainActivity" />
         <activity
-            android:name=".activity.GameListActivity"
+            android:name=".activity.DataActivity"
             android:label="@string/title_activity_game_list"
             android:parentActivityName=".activity.MainActivity" >
         </activity>
         <meta-data
             android:name="android.support.PARENT_ACTIVITY"
             android:value=".activity.MainActivity" />
-        <activity
-            android:name=".activity.RunListActivity"
-            android:label="@string/title_activity_run_list"
-            android:parentActivityName=".activity.MainActivity" >
-        </activity>
-            <meta-data
+        <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.MainActivity" />
     </application>

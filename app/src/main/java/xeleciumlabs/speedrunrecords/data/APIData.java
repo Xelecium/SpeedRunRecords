@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
-import android.widget.BaseAdapter;
 import android.widget.Toast;
 
 import com.squareup.okhttp.Call;
@@ -22,13 +21,14 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import xeleciumlabs.speedrunrecords.activity.GameListActivity;
+import xeleciumlabs.speedrunrecords.activity.DataActivity;
 
 /**
  * Created by Xelecium on 8/22/2015.
  */
 public abstract class APIData extends Activity {
 
+    public static final String apiKey = "vuoc0473yvpmiiwiaaehcfh9w";
     public static final String UPDATE_VIEW = "xeleciumlabs.speedrunrecords.updateview";
 
     private static Context mContext;
@@ -47,7 +47,6 @@ public abstract class APIData extends Activity {
 
         mUpdateIntent = new Intent(UPDATE_VIEW);
 
-        String apiKey = "vuoc0473yvpmiiwiaaehcfh9w";
 
         if (isNetworkAvailable()) {
 
@@ -99,22 +98,22 @@ public abstract class APIData extends Activity {
         JSONArray data = jsonObject.getJSONArray("data");
 
         switch(mDataType) {
-            case GameListActivity.SERIES_DATA_TYPE:
+            case DataActivity.SERIES_DATA_TYPE:
                 parseSeries(data, arrayList);
                 break;
-            case GameListActivity.GAME_DATA_TYPE:
+            case DataActivity.GAME_DATA_TYPE:
                 parseGame(data, arrayList);
                 break;
-            case GameListActivity.PLATFORM_DATA_TYPE:
+            case DataActivity.PLATFORM_DATA_TYPE:
                 parsePlatform(data, arrayList);
                 break;
-            case GameListActivity.REGION_DATA_TYPE:
+            case DataActivity.REGION_DATA_TYPE:
                 parseRegion(data, arrayList);
                 break;
-            case GameListActivity.RUN_DATA_TYPE:
+            case DataActivity.RUN_DATA_TYPE:
 
                 break;
-            case GameListActivity.USER_DATA_TYPE:
+            case DataActivity.USER_DATA_TYPE:
 
                 break;
             default: break;

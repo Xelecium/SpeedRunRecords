@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -37,9 +38,9 @@ import xeleciumlabs.speedrunrecords.data.Game;
 /**
  * Created by Xelecium on 8/19/2015.
  */
-public class GameListActivity extends Activity {
+public class DataActivity extends Activity {
 
-    private static final String TAG = GameListActivity.class.getSimpleName();
+    private static final String TAG = DataActivity.class.getSimpleName();
 
     public static final String SERIES_DATA_TYPE = "TYPE_SERIES";
     public static final String GAME_DATA_TYPE = "TYPE_GAME";
@@ -56,14 +57,14 @@ public class GameListActivity extends Activity {
     private ProgressBar mProgressBar;
     private ImageView mRefreshImageView;
 
-    private ArrayList<Game> mGames;
-    private GameAdapter mGameAdapter;
+    private ArrayList mData;
+    private BaseAdapter mGameAdapter;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game_list);
+        setContentView(R.layout.activity_data);
 
         mSearchBar = (EditText)findViewById(R.id.searchBar);
         mGameList = (ListView)findViewById(R.id.gameList);
@@ -72,16 +73,16 @@ public class GameListActivity extends Activity {
         mProgressBar.setVisibility(View.INVISIBLE);
         mRefreshImageView = (ImageView)findViewById(R.id.refresh);
 
-        mGames = new ArrayList<>();
+        mData = new ArrayList();
 
 
 
 //        getGameList();
 
-        mGameAdapter = new GameAdapter(GameListActivity.this, mGames);
+        mGameAdapter = new GameAdapter(DataActivity.this, mData);
         mGameList.setAdapter(mGameAdapter);
 
-        APIData.getData(this, mGames, API_GAME_URL, GAME_DATA_TYPE);
+        APIData.getData(this, mData, API_GAME_URL, GAME_DATA_TYPE);
     }
 
     @Override
@@ -128,7 +129,7 @@ public class GameListActivity extends Activity {
                             toggleRefresh();
                         }
                     });
-                    Toast.makeText(GameListActivity.this, "No JSON Response", Toast.LENGTH_LONG);
+                    Toast.makeText(DataActivity.this, "No JSON Response", Toast.LENGTH_LONG);
                     //alertUserAboutError();
                 }
 
@@ -195,7 +196,7 @@ public class GameListActivity extends Activity {
 
             game.setGamePlatform(jsonGame.getString("platforms"));
 
-            mGames.add(game);
+            mData.add(game);
         }
     }
 
