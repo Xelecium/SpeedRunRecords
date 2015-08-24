@@ -9,7 +9,10 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import xeleciumlabs.speedrunrecords.R;
+import xeleciumlabs.speedrunrecords.data.Run;
 
 /**
  * Created by Xelecium on 8/16/2015.
@@ -19,7 +22,7 @@ public class RunAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     //Constructor
-    public RunAdapter(Context context) {
+    public RunAdapter(Context context, ArrayList<Run> runs) {
         mInflater = LayoutInflater.from(context);
     }
 

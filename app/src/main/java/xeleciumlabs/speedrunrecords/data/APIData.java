@@ -98,22 +98,22 @@ public abstract class APIData extends Activity {
         JSONArray data = jsonObject.getJSONArray("data");
 
         switch(mDataType) {
-            case DataActivity.SERIES_DATA_TYPE:
+            case SRR.SERIES_DATA_TYPE:
                 parseSeries(data, arrayList);
                 break;
-            case DataActivity.GAME_DATA_TYPE:
+            case SRR.GAME_DATA_TYPE:
                 parseGame(data, arrayList);
                 break;
-            case DataActivity.PLATFORM_DATA_TYPE:
+            case SRR.PLATFORM_DATA_TYPE:
                 parsePlatform(data, arrayList);
                 break;
-            case DataActivity.REGION_DATA_TYPE:
+            case SRR.REGION_DATA_TYPE:
                 parseRegion(data, arrayList);
                 break;
-            case DataActivity.RUN_DATA_TYPE:
+            case SRR.RUN_DATA_TYPE:
 
                 break;
-            case DataActivity.USER_DATA_TYPE:
+            case SRR.USER_DATA_TYPE:
 
                 break;
             default: break;

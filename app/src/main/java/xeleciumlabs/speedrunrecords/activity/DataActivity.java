@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -32,7 +33,11 @@ import java.util.ArrayList;
 
 import xeleciumlabs.speedrunrecords.R;
 import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
+import xeleciumlabs.speedrunrecords.adapter.PlatformAdapter;
+import xeleciumlabs.speedrunrecords.adapter.RunAdapter;
+import xeleciumlabs.speedrunrecords.adapter.SeriesAdapter;
 import xeleciumlabs.speedrunrecords.data.APIData;
+import xeleciumlabs.speedrunrecords.data.SRR;
 import xeleciumlabs.speedrunrecords.data.Game;
 
 /**
@@ -42,14 +47,6 @@ public class DataActivity extends Activity {
 
     private static final String TAG = DataActivity.class.getSimpleName();
 
-    public static final String SERIES_DATA_TYPE = "TYPE_SERIES";
-    public static final String GAME_DATA_TYPE = "TYPE_GAME";
-    public static final String PLATFORM_DATA_TYPE = "TYPE_PLATFORM";
-    public static final String REGION_DATA_TYPE = "TYPE_REGION";
-    public static final String RUN_DATA_TYPE = "TYPE_RUN";
-    public static final String USER_DATA_TYPE = "TYPE_USER";
-
-    public static final String API_GAME_URL = "http://www.speedrun.com/api/v1/games";
 
     private EditText mSearchBar;
     private ListView mGameList;
@@ -58,8 +55,10 @@ public class DataActivity extends Activity {
     private ImageView mRefreshImageView;
 
     private ArrayList mData;
-    private BaseAdapter mGameAdapter;
+    private BaseAdapter mAdapter;
 
+    private String mApiUrl;
+    private String mItemType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +68,42 @@ public class DataActivity extends Activity {
         mSearchBar = (EditText)findViewById(R.id.searchBar);
         mGameList = (ListView)findViewById(R.id.gameList);
 
-        mProgressBar = (ProgressBar)findViewById(R.id.progressBar);
-        mProgressBar.setVisibility(View.INVISIBLE);
-        mRefreshImageView = (ImageView)findViewById(R.id.refresh);
+        mItemType = getIntent().getStringExtra(SRR.ACTIVITY_EXTRA);
 
         mData = new ArrayList();
 
+        switch (mItemType) {
+            case SRR.SERIES_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_SERIES;
+                mAdapter = new SeriesAdapter(DataActivity.this, mData);
+                break;
+            case SRR.GAME_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_GAMES;
+                mAdapter = new GameAdapter(DataActivity.this, mData);
+                break;
+            case SRR.PLATFORM_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_PLATFORMS;
+                mAdapter = new PlatformAdapter(DataActivity.this, mData);
+                break;
+            case SRR.REGION_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_REGIONS;
+//                mAdapter = new RegionAdapter(DataActivity.this, mData);
+                break;
+            case SRR.RUN_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_RUNS;
+                mAdapter = new RunAdapter(DataActivity.this, mData);
+                break;
+            case SRR.USER_DATA_TYPE:
+                mApiUrl = SRR.API_BASE_URL + SRR.API_USERS;
+//                mAdapter = new UserAdapter(DataActivity.this, mData);
+                break;
+            default: break;
+        }
 
+        mGameList.setAdapter(mAdapter);
 
-//        getGameList();
-
-        mGameAdapter = new GameAdapter(DataActivity.this, mData);
-        mGameList.setAdapter(mGameAdapter);
-
-        APIData.getData(this, mData, API_GAME_URL, GAME_DATA_TYPE);
+        //Gets JSON data of type mItemType, from mApiUrl, and stores it in mData
+        APIData.getData(this, mData, mApiUrl, mItemType);
     }
 
     @Override
@@ -101,7 +122,7 @@ public class DataActivity extends Activity {
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            mGameAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     };
 
@@ -151,7 +172,7 @@ public class DataActivity extends Activity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mGameAdapter.notifyDataSetChanged();
+                                    mAdapter.notifyDataSetChanged();
                                 }
                             });
 
