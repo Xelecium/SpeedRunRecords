@@ -1,50 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/DataListItem"
     >
 
-    <RelativeLayout
-        android:padding="5dp"
-        android:background="#FF555555"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/gameArt"
-            android:src="@drawable/nes_cartridge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/gameTitle"
+            android:text="Game Title"
 
+            android:layout_weight="4"
+
+            style="@style/DataItem"
             />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/gameArt"
-            android:layout_marginLeft="10dp"
-            >
-            <TextView
-                android:id="@+id/runTitle"
-                android:text="Game Title"
-                android:textSize="18sp"
-                android:textColor="#FFDDDDDD"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                />
-            <ListView
-                android:id="@+id/runDetails"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                >
+        <TextView
+            android:id="@+id/runTime"
+            android:text="5:59:59"
 
-            </ListView>
+            android:layout_weight="1"
 
-        </LinearLayout>
+            style="@style/DataItem"
+            />
 
-    </RelativeLayout>
-</LinearLayout>
+        <TextView
+            android:id="@+id/runUser"
+            android:text="Xelecium"
+
+            android:layout_weight="1"
+
+            style="@style/DataItem"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>

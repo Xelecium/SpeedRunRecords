@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import xeleciumlabs.speedrunrecords.data.Game;
+import xeleciumlabs.speedrunrecords.R;
 import xeleciumlabs.speedrunrecords.data.Platform;
 
 /**
@@ -29,7 +30,7 @@ public class PlatformAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 0;
+        return mPlatforms.size();
     }
 
     @Override
@@ -44,6 +45,33 @@ public class PlatformAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+
+        ViewHolder holder;
+
+        //if view is not yet populated
+        if (convertView == null) {
+            convertView = mInflater.inflate(R.layout.platform_list_item, parent, false);
+
+            holder = new ViewHolder();
+            holder.platformName = (TextView)convertView.findViewById(R.id.platformName);
+
+            holder.viewPosition = position;
+            convertView.setTag(holder); //Tag for the RecyclerView
+        }
+        else {
+            holder = (ViewHolder)convertView.getTag();
+        }
+
+        Platform platform = mPlatforms.get(position);
+        holder.platformName.setText(platform.getPlatformName());
+
+        return convertView;
+    }
+
+    //ViewHolder for recycling
+    private static class ViewHolder {
+        TextView platformName;
+
+        int viewPosition;
     }
 }

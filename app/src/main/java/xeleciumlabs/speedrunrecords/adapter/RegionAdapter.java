@@ -5,35 +5,32 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import xeleciumlabs.speedrunrecords.R;
-import xeleciumlabs.speedrunrecords.data.Run;
-import xeleciumlabs.speedrunrecords.data.User;
+import xeleciumlabs.speedrunrecords.data.Region;
 
 /**
- * Created by Xelecium on 8/16/2015.
+ * Created by Xelecium on 8/24/2015.
  */
-public class RunAdapter extends BaseAdapter {
+public class RegionAdapter extends BaseAdapter {
 
     private Context mContext;
     private LayoutInflater mInflater;
-    private ArrayList<Run> mRuns;
+    private ArrayList<Region> mRegions;
 
-    //Constructor
-    public RunAdapter(Context context, ArrayList<Run> runs) {
+
+    public RegionAdapter(Context context, ArrayList<Region> regions) {
         mContext = context;
         mInflater = LayoutInflater.from(mContext);
-        mRuns = runs;
+        mRegions = regions;
     }
 
     @Override
     public int getCount() {
-        return mRuns.size();
+        return mRegions.size();
     }
 
     @Override
@@ -53,12 +50,10 @@ public class RunAdapter extends BaseAdapter {
 
         //if view is not yet populated
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.run_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.region_list_item, parent, false);
 
             holder = new ViewHolder();
-            holder.gameTitle = (TextView)convertView.findViewById(R.id.gameTitle);
-            holder.runTime = (TextView)convertView.findViewById(R.id.runTime);
-            holder.runUser = (TextView)convertView.findViewById(R.id.runUser);
+            holder.regionName = (TextView)convertView.findViewById(R.id.regionName);
 
             holder.viewPosition = position;
             convertView.setTag(holder); //Tag for the RecyclerView
@@ -67,19 +62,15 @@ public class RunAdapter extends BaseAdapter {
             holder = (ViewHolder)convertView.getTag();
         }
 
-        Run run = mRuns.get(position);
-        holder.gameTitle.setText(run.getGameTitle());
-        holder.runTime.setText(run.getRunTime());
-        holder.runUser.setText(run.getRunUser());
+        Region region = mRegions.get(position);
+        holder.regionName.setText(region.getRegionName());
 
         return convertView;
     }
 
     //ViewHolder for recycling
-    private static class ViewHolder {;
-        TextView gameTitle;
-        TextView runTime;
-        TextView runUser;
+    private static class ViewHolder {
+        TextView regionName;
 
         int viewPosition;
     }

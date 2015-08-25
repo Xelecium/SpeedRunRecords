@@ -34,8 +34,10 @@ import java.util.ArrayList;
 import xeleciumlabs.speedrunrecords.R;
 import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
 import xeleciumlabs.speedrunrecords.adapter.PlatformAdapter;
+import xeleciumlabs.speedrunrecords.adapter.RegionAdapter;
 import xeleciumlabs.speedrunrecords.adapter.RunAdapter;
 import xeleciumlabs.speedrunrecords.adapter.SeriesAdapter;
+import xeleciumlabs.speedrunrecords.adapter.UserAdapter;
 import xeleciumlabs.speedrunrecords.data.APIData;
 import xeleciumlabs.speedrunrecords.data.SRR;
 import xeleciumlabs.speedrunrecords.data.Game;
@@ -87,7 +89,7 @@ public class DataActivity extends Activity {
                 break;
             case SRR.REGION_DATA_TYPE:
                 mApiUrl = SRR.API_BASE_URL + SRR.API_REGIONS;
-//                mAdapter = new RegionAdapter(DataActivity.this, mData);
+                mAdapter = new RegionAdapter(DataActivity.this, mData);
                 break;
             case SRR.RUN_DATA_TYPE:
                 mApiUrl = SRR.API_BASE_URL + SRR.API_RUNS;
@@ -95,7 +97,7 @@ public class DataActivity extends Activity {
                 break;
             case SRR.USER_DATA_TYPE:
                 mApiUrl = SRR.API_BASE_URL + SRR.API_USERS;
-//                mAdapter = new UserAdapter(DataActivity.this, mData);
+                mAdapter = new UserAdapter(DataActivity.this, mData);
                 break;
             default: break;
         }
