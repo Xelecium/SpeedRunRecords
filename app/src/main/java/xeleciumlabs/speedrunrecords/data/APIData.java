@@ -49,21 +49,17 @@ public abstract class APIData extends Activity {
 
 
         if (isNetworkAvailable()) {
-
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url(apiUrl)
                     .build();
-
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
-
                 @Override
                 public void onFailure(Request request, IOException e) {
                     Toast.makeText(mContext, "No JSON Response", Toast.LENGTH_LONG);
                     //alertUserAboutError();
                 }
-
                 @Override
                 public void onResponse(Response response) throws IOException {
                     try {
@@ -111,10 +107,10 @@ public abstract class APIData extends Activity {
                 parseRegion(data, arrayList);
                 break;
             case SRR.RUN_DATA_TYPE:
-
+                parseRun(data, arrayList);
                 break;
             case SRR.USER_DATA_TYPE:
-
+                parseUser(data, arrayList);
                 break;
             default: break;
         }
@@ -126,7 +122,8 @@ public abstract class APIData extends Activity {
             Series series = new Series();
 
             series.setSeriesId(object.getString("id"));
-            series.setSeriesName(object.getJSONObject("names").getString("international"));
+            series.setSeriesName(object.getJSONObject("names")
+                    .getString("international"));
             series.setSeriesWebLink(object.getString("weblink"));
 
             arrayList.add(series);
@@ -139,7 +136,8 @@ public abstract class APIData extends Activity {
             Game game = new Game();
 
             game.setGameId(object.getString("id"));
-            game.setGameName(object.getJSONObject("names").getString("international"));
+            game.setGameName(object.getJSONObject("names")
+                    .getString("international"));
             game.setGameWebLink(object.getString("weblink"));
             game.setGameRelease(object.getInt("released"));
             game.setGamePlatform(object.getString("platforms"));
@@ -173,7 +171,55 @@ public abstract class APIData extends Activity {
         }
         mContext.sendBroadcast(mUpdateIntent);
     }
+    private static void parseRun(JSONArray data, ArrayList arrayList) throws JSONException {
+        for (int i = 0; i < data.length(); i++) {
+            JSONObject object = data.getJSONObject(i);
+            Run run = new Run();
 
+            //TODO: need to parse ID to get real name
+            run.setGameTitle(object.getString("game"));
+            //TODO: need to parse String to format to HH:MM:SS
+            run.setRunTime(object.getJSONObject("times")
+                    .getString("primary"));
+            //TODO: need to parse ID to get real name
+            String userType = object.getJSONArray("players")
+                    .getJSONObject(0)
+                    .getString("rel");
+
+            if (userType.equals("guest")) {
+                run.setRunUser(object.getJSONArray("players")
+                        .getJSONObject(0)
+                        .getString("name"));
+            }
+            else {
+                run.setRunUser(object.getJSONArray("players")
+                        .getJSONObject(0)
+                        .getString("id"));
+            }
+
+            arrayList.add(run);
+        }
+        mContext.sendBroadcast(mUpdateIntent);
+    }
+    private static void parseUser(JSONArray data, ArrayList arrayList) throws JSONException {
+        for (int i = 0; i < data.length(); i++) {
+            JSONObject object = data.getJSONObject(i);
+            User user = new User();
+
+            user.setUserName(object.getJSONObject("names")
+                    .getString("international"));
+            if (object.isNull("location")) {
+                user.setUserCountryId("");
+            }
+            else {
+                user.setUserCountryId(object.getJSONObject("location")
+                        .getJSONObject("country")
+                        .getString("code"));
+            }
+            arrayList.add(user);
+        }
+        mContext.sendBroadcast(mUpdateIntent);
+    }
 
     private static boolean isNetworkAvailable() {
         ConnectivityManager manager = (ConnectivityManager)

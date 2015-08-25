@@ -31,7 +31,7 @@
         />
 
     <ListView
-        android:id="@+id/gameList"
+        android:id="@+id/itemList"
         android:background="#FFAAAAAA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

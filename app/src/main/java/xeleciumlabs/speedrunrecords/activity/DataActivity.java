@@ -8,7 +8,6 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.BaseAdapter;
@@ -51,10 +50,7 @@ public class DataActivity extends Activity {
 
 
     private EditText mSearchBar;
-    private ListView mGameList;
-
-    private ProgressBar mProgressBar;
-    private ImageView mRefreshImageView;
+    private ListView mItemList;
 
     private ArrayList mData;
     private BaseAdapter mAdapter;
@@ -68,7 +64,7 @@ public class DataActivity extends Activity {
         setContentView(R.layout.activity_data);
 
         mSearchBar = (EditText)findViewById(R.id.searchBar);
-        mGameList = (ListView)findViewById(R.id.gameList);
+        mItemList = (ListView)findViewById(R.id.itemList);
 
         mItemType = getIntent().getStringExtra(SRR.ACTIVITY_EXTRA);
 
@@ -102,7 +98,7 @@ public class DataActivity extends Activity {
             default: break;
         }
 
-        mGameList.setAdapter(mAdapter);
+        mItemList.setAdapter(mAdapter);
 
         //Gets JSON data of type mItemType, from mApiUrl, and stores it in mData
         APIData.getData(this, mData, mApiUrl, mItemType);
@@ -120,129 +116,10 @@ public class DataActivity extends Activity {
         unregisterReceiver(mUpdateReceiver);
     }
 
-
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
             mAdapter.notifyDataSetChanged();
         }
     };
-
-    private void getGameList() {
-
-        String apiKey = "vuoc0473yvpmiiwiaaehcfh9w";
-        String apiUrl = "http://www.speedrun.com/api/v1/games";
-
-        if (isNetworkAvailable()) {
-            toggleRefresh();
-
-            OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
-                    .url(apiUrl)
-                    .build();
-
-            Call call = client.newCall(request);
-            call.enqueue(new Callback() {
-
-                @Override
-                public void onFailure(Request request, IOException e) {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
-                    Toast.makeText(DataActivity.this, "No JSON Response", Toast.LENGTH_LONG);
-                    //alertUserAboutError();
-                }
-
-                @Override
-                public void onResponse(Response response) throws IOException {
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toggleRefresh();
-                        }
-                    });
-
-                    try {
-                        String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
-                        if (response.isSuccessful()) {
-                            getGameData(jsonData);
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mAdapter.notifyDataSetChanged();
-                                }
-                            });
-
-                        }
-                        else {
-//                            alertUserAboutError();
-                        }
-                    }
-                    catch(IOException e)
-                    {
-                        Log.e(TAG, "Exception caught: ", e);
-                    }
-                    catch (JSONException e) {
-                        Log.e(TAG, "Exception caught: ", e);
-                    }
-                }
-            });
-        }
-        else {
-            Toast.makeText(this, "Network is unavailable!",
-                    Toast.LENGTH_LONG).show();
-        }
-
-
-    }
-
-    private void getGameData(String jsonData) throws JSONException {
-        JSONObject data = new JSONObject(jsonData);
-        JSONArray games = data.getJSONArray("data");
-
-        for (int i = 0; i < games.length(); i++) {
-            JSONObject jsonGame = games.getJSONObject(i);
-            Game game = new Game();
-
-            game.setGameId(jsonGame.getString("id"));
-
-            game.setGameName(jsonGame.getJSONObject("names").getString("international"));
-//            JSONObject jsonGameName = jsonGame.getJSONObject("names");
-//            game.setGameName(jsonGameName.getString("international"));
-            game.setGameWebLink(jsonGame.getString("weblink"));
-            game.setGameRelease(jsonGame.getInt("released"));
-
-            game.setGamePlatform(jsonGame.getString("platforms"));
-
-            mData.add(game);
-        }
-    }
-
-    private void toggleRefresh() {
-        if (mProgressBar.getVisibility() == View.INVISIBLE) {
-            mProgressBar.setVisibility(View.VISIBLE);
-            mRefreshImageView.setVisibility(View.INVISIBLE);
-        }
-        else {
-            mProgressBar.setVisibility(View.INVISIBLE);
-            mRefreshImageView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private boolean isNetworkAvailable() {
-        ConnectivityManager manager = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-        boolean isAvailable = false;
-        if (networkInfo != null && networkInfo.isConnected()) {
-            isAvailable = true;
-        }
-
-        return isAvailable;
-    }
 }

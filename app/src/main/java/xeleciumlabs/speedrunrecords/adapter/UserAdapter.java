@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -49,10 +50,11 @@ public class UserAdapter extends BaseAdapter {
 
         //if view is not yet populated
         if (convertView == null) {
-            convertView = mInflater.inflate(R.layout.region_list_item, parent, false);
+            convertView = mInflater.inflate(R.layout.user_list_item, parent, false);
 
             holder = new ViewHolder();
             holder.userName = (TextView)convertView.findViewById(R.id.userName);
+            holder.userFlag = (ImageView)convertView.findViewById(R.id.userCountry);
 
             holder.viewPosition = position;
             convertView.setTag(holder); //Tag for the RecyclerView
@@ -70,6 +72,7 @@ public class UserAdapter extends BaseAdapter {
     //ViewHolder for recycling
     private static class ViewHolder {
         TextView userName;
+        ImageView userFlag;
 
         int viewPosition;
     }
