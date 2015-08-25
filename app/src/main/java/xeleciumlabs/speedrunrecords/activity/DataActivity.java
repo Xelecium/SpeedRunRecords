@@ -70,6 +70,7 @@ public class DataActivity extends Activity {
 
         mData = new ArrayList();
 
+        //Set adapter (inherited from BaseAdapter) based on data type selected
         switch (mItemType) {
             case SRR.SERIES_DATA_TYPE:
                 mApiUrl = SRR.API_BASE_URL + SRR.API_SERIES;
@@ -97,7 +98,6 @@ public class DataActivity extends Activity {
                 break;
             default: break;
         }
-
         mItemList.setAdapter(mAdapter);
 
         //Gets JSON data of type mItemType, from mApiUrl, and stores it in mData
@@ -116,6 +116,7 @@ public class DataActivity extends Activity {
         unregisterReceiver(mUpdateReceiver);
     }
 
+    //When APIData sends a message saying it's parsed more data, update the adapter with it
     private BroadcastReceiver mUpdateReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

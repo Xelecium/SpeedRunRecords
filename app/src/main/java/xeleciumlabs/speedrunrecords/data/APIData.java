@@ -58,7 +58,6 @@ public abstract class APIData extends Activity {
                 @Override
                 public void onFailure(Request request, IOException e) {
                     Toast.makeText(mContext, "No JSON Response", Toast.LENGTH_LONG);
-                    //alertUserAboutError();
                 }
                 @Override
                 public void onResponse(Response response) throws IOException {
@@ -67,9 +66,6 @@ public abstract class APIData extends Activity {
                         Log.v(TAG, jsonData);
                         if (response.isSuccessful()) {
                             parseData(jsonData, arrayList);
-                        }
-                        else {
-//                            alertUserAboutError();
                         }
                     }
                     catch(IOException e)
@@ -115,7 +111,6 @@ public abstract class APIData extends Activity {
             default: break;
         }
     }
-
     private static void parseSeries(JSONArray data, ArrayList arrayList) throws JSONException {
         for (int i = 0; i < data.length(); i++) {
             JSONObject object = data.getJSONObject(i);

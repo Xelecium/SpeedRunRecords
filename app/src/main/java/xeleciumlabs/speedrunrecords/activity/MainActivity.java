@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Set up each button and its ClickListener
         mSeriesButton = (Button)findViewById(R.id.seriesButton);
         mSeriesButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -72,10 +73,12 @@ public class MainActivity extends Activity {
             }
         });
 
+        //All buttons lead to DataActivity, but with different data
         mIntent = new Intent(MainActivity.this, DataActivity.class);
     }
 
     private void startDataList(String dataType) {
+        //Assign the data type based on the button pressed and start DataActivity
         mIntent.putExtra(SRR.ACTIVITY_EXTRA, dataType);
         Log.i(TAG, "Going to: " + dataType);
         startActivity(mIntent);
