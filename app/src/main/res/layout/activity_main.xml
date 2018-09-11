@@ -1,68 +1,59 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:paddingRight="@dimen/activity_horizontal_margin"
-                android:paddingTop="@dimen/activity_vertical_margin"
-                android:paddingBottom="@dimen/activity_vertical_margin"
-                tools:context="xeleciumlabs.speedrunrecords.activity.MainActivity"
-                android:background="#FF222222"
-
-    >
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="xeleciumlabs.speedrunrecords.activity.MainActivity"
+    android:background="#FF222222">
 
     <ImageView
         android:id="@+id/bannerImage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:src="@drawable/nes_cartridge"
-        android:layout_width="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/searchBar"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        />
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/search_bar_hint"
+        android:inputType="textCapWords"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bannerImage" />
 
-    <LinearLayout
-        android:id="@+id/buttons"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/bannerImage"
-        android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        >
+    <ListView
+        android:id="@+id/searchResults"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchBar" />
 
-        <Button
-            android:id="@+id/seriesButton"
-            android:text="SERIES"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
-        <Button
-            android:id="@+id/gamesButton"
-            android:text="GAMES"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-        <Button
-            android:id="@+id/platformsButton"
-            android:text="PLATFORMS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-        <Button
-            android:id="@+id/regionsButton"
-            android:text="REGIONS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        />
-        <Button
-            android:id="@+id/runsButton"
-            android:text="RUNS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        />
-        <Button
-            android:id="@+id/usersButton"
-            android:text="USERS"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
-    </LinearLayout>
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
