@@ -16,9 +16,9 @@ public abstract class SRR {
 
     public static final String API_BASE_URL = "http://www.speedrun.com/api/v1/";
     public static final String API_SERIES = "series";
-    public static final String API_GAMES = "games";
+    public static final String API_GAMES = "games/";
     public static final String API_PLATFORMS = "platforms";
     public static final String API_REGIONS = "regions";
     public static final String API_RUNS = "runs";
-    public static final String API_USERS = "users";
+    public static final String API_USERS = "users/";
 }

@@ -1,16 +1,27 @@
 package xeleciumlabs.speedrunrecords.activity;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import xeleciumlabs.speedrunrecords.R;
+import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
+import xeleciumlabs.speedrunrecords.adapter.UserAdapter;
+import xeleciumlabs.speedrunrecords.data.APIData;
+import xeleciumlabs.speedrunrecords.data.Game;
 import xeleciumlabs.speedrunrecords.data.SRR;
+import xeleciumlabs.speedrunrecords.data.User;
 
 public class MainActivity extends Activity {
 
@@ -25,15 +36,45 @@ public class MainActivity extends Activity {
 
 
     private EditText searchBar;
+    private Button searchButton;
+    private ListView gameList;
+    private ListView userList;
+
     private Intent mIntent;
+
+    private String gameApiUrl;
+    private GameAdapter gameAdapter;
+    private ArrayList gameResults;
+
+    private String userApiUrl;
+    private UserAdapter userAdapter;
+    private ArrayList userResults;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Search Bar contents
+        //UI Elements
         searchBar = findViewById(R.id.searchBar);
+        searchButton = findViewById(R.id.searchButton);
+        gameList = findViewById(R.id.gameResultsList);
+        userList = findViewById(R.id.userResultsList);
+
+        gameResults = new ArrayList<Game>();
+        userResults = new ArrayList<User>();
+
+        searchButton.setOnClickListener(searchClickListener);
+
+
+
+        //Adapters for the results ListViews
+        gameAdapter = new GameAdapter(MainActivity.this, gameResults);
+        gameList.setAdapter(gameAdapter);
+        userAdapter = new UserAdapter(MainActivity.this, userResults);
+        userList.setAdapter(userAdapter);
+
+
 
 //        //Set up each button and its ClickListener
 //        mSeriesButton = (Button)findViewById(R.id.seriesButton);
@@ -80,8 +121,20 @@ public class MainActivity extends Activity {
 //        });
 
         //All buttons lead to DataActivity, but with different data
-        mIntent = new Intent(MainActivity.this, DataActivity.class);
+        //mIntent = new Intent(MainActivity.this, DataActivity.class);
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        registerReceiver(updateReceiver, new IntentFilter(APIData.UPDATE_VIEW));
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        unregisterReceiver(updateReceiver);
+//    }
 
     private void startDataList(String dataType) {
         //Assign the data type based on the button pressed and start DataActivity
@@ -90,4 +143,30 @@ public class MainActivity extends Activity {
         startActivity(mIntent);
     }
 
+
+//    private BroadcastReceiver updateReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//
+//        }
+//    };
+
+    private OnClickListener searchClickListener = new OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            String query = searchBar.getText().toString();
+            if (!query.equals("")) {
+                //Sets the API URLs for retrieving data
+                gameApiUrl = SRR.API_BASE_URL + SRR.API_GAMES + query;
+                userApiUrl = SRR.API_BASE_URL + SRR.API_USERS + query;
+
+                //Gets JSON data from the API URLs, and stores them
+                APIData.getData(MainActivity.this, gameResults, gameApiUrl, SRR.GAME_DATA_TYPE);
+                APIData.getData(MainActivity.this, userResults, userApiUrl, SRR.USER_DATA_TYPE);
+
+                gameAdapter.notifyDataSetChanged();
+                userAdapter.notifyDataSetChanged();
+            }
+        }
+    };
 }

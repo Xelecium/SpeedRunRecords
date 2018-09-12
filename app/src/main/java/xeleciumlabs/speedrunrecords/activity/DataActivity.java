@@ -48,7 +48,6 @@ public class DataActivity extends Activity {
 
     private static final String TAG = DataActivity.class.getSimpleName();
 
-
     private EditText mSearchBar;
     private ListView mItemList;
 
