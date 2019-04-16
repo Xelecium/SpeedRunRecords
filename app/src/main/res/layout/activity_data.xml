@@ -12,17 +12,14 @@
                 android:focusableInTouchMode="true"
     >
 
-
-
-    <EditText
-        android:id="@+id/searchBar"
-        android:hint="Search"
-
+    <TextView
+        android:id="@+id/GameTitle"
+        android:text="GAME TITLE HERE"
+        android:textSize="32sp"
         android:textColor="#FFDDDDDD"
         android:textColorHint="#FFDDDDDD"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="10dp"
@@ -35,7 +32,7 @@
         android:background="#FFAAAAAA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/searchBar"
+        android:layout_below="@id/GameTitle"
         >
 
 

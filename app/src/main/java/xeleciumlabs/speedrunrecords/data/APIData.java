@@ -131,7 +131,7 @@ public abstract class APIData extends Activity {
             game.setGameId(object.getString("id"));
             game.setGameName(object.getJSONObject("names")
                     .getString("twitch"));
-            game.setGameWebLink(object.getString("weblink"));
+            game.setGameLeaderboard(object.getString("weblink"));
             game.setGameRelease(object.getInt("released"));
             game.setGamePlatform(object.getString("platforms"));
 
@@ -173,19 +173,19 @@ public abstract class APIData extends Activity {
             run.setGameTitle(object.getString("game"));
             //TODO: need to parse String to format to HH:MM:SS
             run.setRunTime(object.getJSONObject("times")
-                    .getString("primary"));
+                    .getInt("primary"));
             //TODO: need to parse ID to get real name
             String userType = object.getJSONArray("players")
                     .getJSONObject(0)
                     .getString("rel");
 
             if (userType.equals("guest")) {
-                run.setRunUser(object.getJSONArray("players")
+                run.setRunUserId(object.getJSONArray("players")
                         .getJSONObject(0)
                         .getString("name"));
             }
             else {
-                run.setRunUser(object.getJSONArray("players")
+                run.setRunUserId(object.getJSONArray("players")
                         .getJSONObject(0)
                         .getString("id"));
             }

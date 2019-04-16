@@ -1,22 +1,18 @@
 package xeleciumlabs.speedrunrecords.activity;
 
 import android.app.Activity;
-<<<<<<< HEAD
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-=======
-import android.content.Intent;
->>>>>>> parent of bd7f712... Updated Search UI
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.EditText;
-<<<<<<< HEAD
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,8 +24,6 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-=======
->>>>>>> parent of bd7f712... Updated Search UI
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -38,11 +32,8 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import xeleciumlabs.speedrunrecords.R;
-<<<<<<< HEAD
 import xeleciumlabs.speedrunrecords.adapter.GameAdapter;
 import xeleciumlabs.speedrunrecords.data.Game;
-=======
->>>>>>> parent of bd7f712... Updated Search UI
 import xeleciumlabs.speedrunrecords.data.SRR;
 
 public class MainActivity extends Activity {
@@ -50,30 +41,24 @@ public class MainActivity extends Activity {
     public static final String TAG = MainActivity.class.getSimpleName();
 
     private EditText searchBar;
-<<<<<<< HEAD
-    //private Button searchButton;
+    private Button searchButton;
 
     private ListView gameResults;
     private GameAdapter gameAdapter;
     private ArrayList<Game> games;
 
-=======
     private Intent mIntent;
 
->>>>>>> parent of bd7f712... Updated Search UI
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-<<<<<<< HEAD
         searchBar = findViewById(R.id.searchBar);
-        //searchButton = findViewById(R.id.searchButton);
-        updateGameList();
+        searchButton = findViewById(R.id.searchButton);
     }
 
     private void updateGameList() {
-        gameResults = findViewById(R.id.gameResultsList);
+        gameResults = findViewById(R.id.searchResults);
         games = new ArrayList<Game>();
         gameAdapter = new GameAdapter(MainActivity.this, games);
         gameResults.setAdapter(gameAdapter);
@@ -89,7 +74,6 @@ public class MainActivity extends Activity {
         }
 
         String gameApiUrl = SRR.API_BASE_URL + SRR.API_GAMES + encodedQuery;
-        //APIData.getData(MainActivity.this, games, gameApiUrl, SRR.GAME_DATA_TYPE);
 
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
@@ -122,9 +106,17 @@ public class MainActivity extends Activity {
                                 game.setGameId(object.getString("id"));
                                 game.setGameName(object.getJSONObject("names")
                                         .getString("twitch"));
-                                game.setGameWebLink(object.getString("weblink"));
                                 game.setGameRelease(object.getInt("released"));
                                 game.setGamePlatform(object.getString("platforms"));
+
+                                JSONArray links = object.getJSONArray("links");
+                                for (int j = 0; j < links.length(); j++) {
+                                    JSONObject link = links.getJSONObject(j);
+                                    if (link.getString("rel").equals("leaderboard")) {
+                                        game.setGameLeaderboard(link.getString("uri"));
+                                        break;
+                                    }
+                                }
 
                                 games.add(game);
                             }
@@ -148,7 +140,7 @@ public class MainActivity extends Activity {
                 }
             });
         }
-        Log.d(TAG, "end of call");
+        Log.d(TAG, "End of call");
     }
 
     public void searchOnClick(View view) {
@@ -160,10 +152,10 @@ public class MainActivity extends Activity {
 
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            gameResults.setVisibility(View.GONE);
-            //Take JSON object
-                //{ data [ { links [ { rel: "leaderboard", uri:"***" } ] } ] }
             Intent intent = new Intent(MainActivity.this, LeaderboardActivity.class);
+            intent.putExtra("GAME_TITLE", games.get(i).getGameName());
+            intent.putExtra("LEADERBOARD_LINK", games.get(i).getGameLeaderboard());
+            startActivity(intent);
         }
     };
 
@@ -180,12 +172,6 @@ public class MainActivity extends Activity {
 
         return isAvailable;
     }
-
-
-=======
-        //Search Bar contents
-        searchBar = findViewById(R.id.searchBar);
-
 //        //Set up each button and its ClickListener
 //        mSeriesButton = (Button)findViewById(R.id.seriesButton);
 //        mSeriesButton.setOnClickListener(new OnClickListener() {
@@ -229,10 +215,10 @@ public class MainActivity extends Activity {
 //                startDataList(SRR.USER_DATA_TYPE);
 //            }
 //        });
-
-        //All buttons lead to DataActivity, but with different data
-        mIntent = new Intent(MainActivity.this, DataActivity.class);
-    }
+//
+//        //All buttons lead to DataActivity, but with different data
+//        mIntent = new Intent(MainActivity.this, DataActivity.class);
+//    }
 
     private void startDataList(String dataType) {
         //Assign the data type based on the button pressed and start DataActivity
@@ -240,6 +226,4 @@ public class MainActivity extends Activity {
         Log.i(TAG, "Going to: " + dataType);
         startActivity(mIntent);
     }
-
->>>>>>> parent of bd7f712... Updated Search UI
 }

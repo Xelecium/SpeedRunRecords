@@ -5,15 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import xeleciumlabs.speedrunrecords.R;
 import xeleciumlabs.speedrunrecords.data.Run;
-import xeleciumlabs.speedrunrecords.data.User;
 
 /**
  * Created by Xelecium on 8/16/2015.
@@ -69,8 +66,9 @@ public class RunAdapter extends BaseAdapter {
 
         Run run = mRuns.get(position);
         holder.gameTitle.setText(run.getGameTitle());
-        holder.runTime.setText(run.getRunTime());
-        holder.runUser.setText(run.getRunUser());
+        int time = run.getRunTime();
+        holder.runTime.setText(String.valueOf(time));
+        holder.runUser.setText(run.getRunUserId());
 
         return convertView;
     }

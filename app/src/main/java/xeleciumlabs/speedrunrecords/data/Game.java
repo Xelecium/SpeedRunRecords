@@ -1,15 +1,12 @@
 package xeleciumlabs.speedrunrecords.data;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
  * Created by Xelecium on 8/19/2015.
  */
 public class Game {
     String mGameId;
     String mGameName;
-    String mGameWebLink;
+    String mGameLeaderboard;
     int mGameRelease;
     String mGamePlatform;
 //    Uri mGameCover;
@@ -28,11 +25,11 @@ public class Game {
     public void setGameName(String mGameName) {
         this.mGameName = mGameName;
     }
-    public String getGameWebLink() {
-        return mGameWebLink;
+    public String getGameLeaderboard() {
+        return mGameLeaderboard;
     }
-    public void setGameWebLink(String gameWebLink) {
-        mGameWebLink = gameWebLink;
+    public void setGameLeaderboard(String gameLeaderboard) {
+        mGameLeaderboard = gameLeaderboard;
     }
     public int getGameRelease() {
         return mGameRelease;

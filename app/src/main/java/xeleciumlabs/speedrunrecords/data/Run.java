@@ -5,9 +5,10 @@ package xeleciumlabs.speedrunrecords.data;
  */
 public class Run {
 
-    String mGameTitle;
-    String mRunTime;
-    String mRunUser;
+    private String mGameTitle;
+    private int mRunTime;
+    private String mRunUserId;
+    private String mVideoLink;
 
     public String getGameTitle() {
         return mGameTitle;
@@ -15,17 +16,23 @@ public class Run {
     public void setGameTitle(String gameTitle) {
         mGameTitle = gameTitle;
     }
-    public String getRunTime() {
+    public int getRunTime() {
         return mRunTime;
     }
-    public void setRunTime(String runTime) {
+    public void setRunTime(int runTime) {
         mRunTime = runTime;
     }
-    public String getRunUser() {
-        return mRunUser;
+    public String getRunUserId() {
+        return mRunUserId;
     }
-    public void setRunUser(String runUser) {
-        mRunUser = runUser;
+    public void setRunUserId(String runUserId) {
+        mRunUserId = runUserId;
+    }
+    public String getVideoLink() {
+        return mVideoLink;
+    }
+    public void setVideoLink(String VideoLink) {
+        mVideoLink = VideoLink;
     }
 
 }
