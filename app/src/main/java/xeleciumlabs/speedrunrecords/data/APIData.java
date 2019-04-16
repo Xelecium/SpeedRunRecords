@@ -8,12 +8,6 @@ import android.net.NetworkInfo;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.squareup.okhttp.Call;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,14 +15,18 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import xeleciumlabs.speedrunrecords.activity.DataActivity;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by Xelecium on 8/22/2015.
  */
 public abstract class APIData extends Activity {
 
-    public static final String apiKey = "vuoc0473yvpmiiwiaaehcfh9w";
+    public static final String API_KEY = "vuoc0473yvpmiiwiaaehcfh9w";
     public static final String UPDATE_VIEW = "xeleciumlabs.speedrunrecords.updateview";
 
     private static Context mContext;
@@ -47,7 +45,6 @@ public abstract class APIData extends Activity {
 
         mUpdateIntent = new Intent(UPDATE_VIEW);
 
-
         if (isNetworkAvailable()) {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
@@ -56,11 +53,12 @@ public abstract class APIData extends Activity {
             Call call = client.newCall(request);
             call.enqueue(new Callback() {
                 @Override
-                public void onFailure(Request request, IOException e) {
-                    Toast.makeText(mContext, "No JSON Response", Toast.LENGTH_LONG);
+                public void onFailure(Call call, IOException e) {
+                    Toast.makeText(mContext, "No JSON Response", Toast.LENGTH_LONG).show();
                 }
+
                 @Override
-                public void onResponse(Response response) throws IOException {
+                public void onResponse(Call call, Response response) throws IOException {
                     try {
                         String jsonData = response.body().string();
                         Log.v(TAG, jsonData);
@@ -132,7 +130,7 @@ public abstract class APIData extends Activity {
 
             game.setGameId(object.getString("id"));
             game.setGameName(object.getJSONObject("names")
-                    .getString("international"));
+                    .getString("twitch"));
             game.setGameWebLink(object.getString("weblink"));
             game.setGameRelease(object.getInt("released"));
             game.setGamePlatform(object.getString("platforms"));
